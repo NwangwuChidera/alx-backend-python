@@ -7,11 +7,24 @@ over async_generator, then return the 10 random numbers.
 """
 
 
-from typing import List
-async_generator = __import__('0-async_generator').async_generator
+import asyncio
+import random
 
+# Importing the async_generator coroutine from the previous task
+async def async_generator():
+    for _ in range(10):
+        await asyncio.sleep(1)
+        yield random.randint(0, 10)
 
-async def async_comprehension() -> List[float]:
-    """Return the 10 random numbers"""
-    results = [i async for i in async_generator()]
-    return results
+# Define the async_comprehension coroutine
+async def async_comprehension():
+    random_numbers = [num async for num in async_generator()]
+    return random_numbers
+
+# Example usage:
+async def main():
+    numbers = await async_comprehension()
+    print(numbers)
+
+asyncio.run(main())
+
